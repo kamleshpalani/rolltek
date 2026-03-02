@@ -150,7 +150,10 @@ function Hero() {
           <div>
             <div className="flex items-center gap-2 mb-8">
               <div className="chip">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-live flex-shrink-0" />
+                <span
+                  className="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-live flex-shrink-0"
+                  aria-hidden="true"
+                ></span>{" "}
                 Accepting Projects &middot; 2027
               </div>
             </div>
@@ -261,7 +264,10 @@ function Hero() {
                     {"// ✓ 150+ projects shipped this way"}
                   </p>
                   <div className="flex items-center gap-2 pt-4 text-emerald-400 text-[12px]">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 pulse-live" />
+                    <span
+                      className="w-2 h-2 rounded-full bg-emerald-400 pulse-live"
+                      aria-hidden="true"
+                    ></span>{" "}
                     Status: deployed &amp; scaling
                   </div>
                 </div>
@@ -332,7 +338,10 @@ function Marquee() {
           }}
         >
           {dbl(row1).map((item, i) => (
-            <div key={i} className="flex items-center gap-8 flex-shrink-0">
+            <div
+              key={`r1-${i}-${item}`}
+              className="flex items-center gap-8 flex-shrink-0"
+            >
               <span className="text-[11px] font-bold tracking-[0.2em] uppercase text-white/20">
                 {item}
               </span>
@@ -352,7 +361,10 @@ function Marquee() {
           }}
         >
           {dbl(row2).map((item, i) => (
-            <div key={i} className="flex items-center gap-8 flex-shrink-0">
+            <div
+              key={`r2-${i}-${item}`}
+              className="flex items-center gap-8 flex-shrink-0"
+            >
               <span className="text-[11px] font-bold tracking-[0.2em] uppercase text-white/[0.12]">
                 {item}
               </span>
@@ -609,7 +621,12 @@ function Services() {
             {SERVICES.map(({ n, title, tag, color, desc, tech }) => (
               <div
                 key={n}
+                role="button"
+                tabIndex={0}
                 onClick={() => setActive(active === n ? null : n)}
+                onKeyDown={(e) =>
+                  e.key === "Enter" && setActive(active === n ? null : n)
+                }
                 className="group border-b border-white/[0.06] py-5 cursor-pointer"
               >
                 <div className="flex items-center gap-4">
@@ -1183,14 +1200,13 @@ function Contact() {
                   ["GitHub", "⚙️"],
                   ["Dribbble", "🏀"],
                 ].map(([l, i]) => (
-                  <a
+                  <button
                     key={l}
-                    href="#"
                     aria-label={l}
                     className="w-11 h-11 rounded-xl bg-white/[0.04] border border-white/[0.07] flex items-center justify-center text-lg hover:-translate-y-1 hover:bg-white/[0.08] transition-all duration-200"
                   >
                     {i}
-                  </a>
+                  </button>
                 ))}
               </div>
             </div>
@@ -1203,7 +1219,10 @@ function Contact() {
             </h3>
             <div className="grid sm:grid-cols-2 gap-4 mb-4">
               <div>
-                <label className="block text-[10px] font-bold uppercase tracking-[0.15em] text-white/22 mb-2">
+                <label
+                  htmlFor="c-name"
+                  className="block text-[10px] font-bold uppercase tracking-[0.15em] text-white/22 mb-2"
+                >
                   Full Name
                 </label>
                 <input
@@ -1214,7 +1233,10 @@ function Contact() {
                 />
               </div>
               <div>
-                <label className="block text-[10px] font-bold uppercase tracking-[0.15em] text-white/22 mb-2">
+                <label
+                  htmlFor="c-email"
+                  className="block text-[10px] font-bold uppercase tracking-[0.15em] text-white/22 mb-2"
+                >
                   Email Address
                 </label>
                 <input
@@ -1226,7 +1248,10 @@ function Contact() {
               </div>
             </div>
             <div className="mb-4">
-              <label className="block text-[10px] font-bold uppercase tracking-[0.15em] text-white/22 mb-2">
+              <label
+                htmlFor="c-service"
+                className="block text-[10px] font-bold uppercase tracking-[0.15em] text-white/22 mb-2"
+              >
                 Service Interested In
               </label>
               <select id="c-service" className={inputCls}>
@@ -1238,7 +1263,10 @@ function Contact() {
               </select>
             </div>
             <div className="mb-7">
-              <label className="block text-[10px] font-bold uppercase tracking-[0.15em] text-white/22 mb-2">
+              <label
+                htmlFor="c-message"
+                className="block text-[10px] font-bold uppercase tracking-[0.15em] text-white/22 mb-2"
+              >
                 Project Details
               </label>
               <textarea
@@ -1248,35 +1276,41 @@ function Contact() {
                 className={inputCls}
               />
             </div>
-            <button
-              onClick={handleSubmit}
-              className={`w-full py-4 rounded-xl font-semibold text-[14px] flex items-center justify-center gap-2 transition-all duration-300 ${
+            {(() => {
+              const btnCls =
                 status === "success"
                   ? "bg-emerald-500 text-white"
                   : status === "error"
                     ? "bg-rose-500 text-white"
-                    : "btn-primary"
-              }`}
-            >
-              {status === "success" ? (
-                "✓ Message Sent!"
-              ) : status === "error" ? (
-                "Please fill required fields"
-              ) : (
-                <>
-                  Send Message
-                  <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
-                    <path
-                      d="M2 8h12M10 4l4 4-4 4"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </>
-              )}
-            </button>
+                    : "btn-primary";
+              const btnLabel =
+                status === "success" ? (
+                  "✓ Message Sent!"
+                ) : status === "error" ? (
+                  "Please fill required fields"
+                ) : (
+                  <>
+                    Send Message
+                    <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+                      <path
+                        d="M2 8h12M10 4l4 4-4 4"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </>
+                );
+              return (
+                <button
+                  onClick={handleSubmit}
+                  className={`w-full py-4 rounded-xl font-semibold text-[14px] flex items-center justify-center gap-2 transition-all duration-300 ${btnCls}`}
+                >
+                  {btnLabel}
+                </button>
+              );
+            })()}
           </div>
         </div>
       </div>
@@ -1305,14 +1339,19 @@ function Footer() {
               that scale.
             </p>
             <div className="flex gap-2.5">
-              {["💼", "𝕏", "⚙️", "🏀"].map((icon, i) => (
-                <a
-                  key={i}
-                  href="#"
+              {[
+                ["💼", "LinkedIn"],
+                ["𝕏", "Twitter"],
+                ["⚙️", "GitHub"],
+                ["🏀", "Dribbble"],
+              ].map(([icon, label]) => (
+                <button
+                  key={label}
+                  aria-label={label}
                   className="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/[0.07] flex items-center justify-center text-sm hover:bg-white/[0.08] hover:-translate-y-0.5 transition-all duration-200"
                 >
                   {icon}
-                </a>
+                </button>
               ))}
             </div>
           </div>
