@@ -1,18 +1,11 @@
 ﻿"use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 
 /* ─────────────────────────── NAVBAR ─────────────────────────── */
 function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 30);
-    window.addEventListener("scroll", fn, { passive: true });
-    return () => window.removeEventListener("scroll", fn);
-  }, []);
 
   const links = [
     { href: "#about", label: "About" },
@@ -25,10 +18,8 @@ function Navbar() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pt-5 px-6 pointer-events-none">
-      <div
-        className={`pointer-events-auto w-full max-w-3xl transition-all duration-500 ${scrolled ? "pill-nav" : "bg-transparent"}`}
-      >
-        <nav className="flex items-center gap-2 px-4 py-3">
+      <div className="pointer-events-auto w-full max-w-7xl transition-all duration-500 pill-nav">
+        <nav className="flex items-center gap-2 px-6 py-3">
           {/* Logo */}
           <a href="#home" className="flex-shrink-0 mr-2">
             <Image
@@ -120,7 +111,7 @@ function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden"
+      className="relative min-h-screen flex items-center pt-48 pb-20 overflow-hidden"
     >
       {/* Orbs */}
       <div
@@ -148,16 +139,6 @@ function Hero() {
         <div className="grid lg:grid-cols-2 gap-14 items-center">
           {/* Left */}
           <div>
-            <div className="flex items-center gap-2 mb-8">
-              <div className="chip">
-                <span
-                  className="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-live flex-shrink-0"
-                  aria-hidden="true"
-                ></span>{" "}
-                Accepting Projects &middot; 2027
-              </div>
-            </div>
-
             <h1 className="font-display text-[clamp(3rem,6.5vw,5.5rem)] font-bold leading-[0.96] text-white mb-8">
               We Engineer
               <br />
@@ -1407,7 +1388,7 @@ function Footer() {
         </div>
         <div className="divider mb-7" />
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px] text-white/[0.18] font-light">
-          <span>&copy; 2027 Rolltek Technologies. All rights reserved.</span>
+          <span>&copy; 2026 Rolltek Technologies. All rights reserved.</span>
           <span>Engineered with precision &amp; passion.</span>
         </div>
       </div>
